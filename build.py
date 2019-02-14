@@ -23,7 +23,7 @@ def build_html(file_structure, pathn, dir_parent, params, parent = None):
     '''
     Builds an index.html for every file in the filesystem in dir_parent
     '''
-    html = f'<h1>Index of ./{dir_parent}</h1>\n'
+    html = f'<h1>Index of ../{dir_parent}</h1>\n'
     if parent:
         html += f'<a href="../index.html">..</a><br/>\n'
 
