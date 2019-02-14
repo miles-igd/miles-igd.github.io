@@ -19,7 +19,7 @@ def build_file_structure(pathn, parent):
 
     return {parent: filesystem}
 
-def build_html(file_structure, pathn, dir_parent, parent = None):
+def build_html(file_structure, pathn, dir_parent, params, parent = None):
     '''
     Builds an index.html for every directory in the filesystem in dir_parent
     '''
@@ -30,8 +30,8 @@ def build_html(file_structure, pathn, dir_parent, parent = None):
     for file in file_structure[dir_parent]:
         if isinstance(file, dict):
             dir_name = [*file.keys()][0]
-            build_html(file, f'{pathn}{dir_name}/', dir_name, parent = True)
-            html += f'<a href="{dir_name}/index.html">{str(dir_name)[:25]}</b><br/>\n'
+            build_html(file, f'{pathn}{dir_name}/', dir_name, params, parent = True)
+            html += f'<a href="{dir_name}/index.html">{str(dir_name)[:params["limit"]]}</b><br/>\n'
         elif file == 'index.html':
             pass
         else:
@@ -41,5 +41,8 @@ def build_html(file_structure, pathn, dir_parent, parent = None):
         file.write(html)
 
 if __name__ == "__main__":
+    with open('parameters.json', 'r') as file:
+        params = load(file)
+        
     files = build_file_structure('./', '')
-    build_html(files, './', '')
+    build_html(files, './', '', params)
