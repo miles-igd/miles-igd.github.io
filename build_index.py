@@ -31,11 +31,11 @@ def build_html(file_structure, pathn, dir_parent, params, parent = None):
         if isinstance(file, dict):
             dir_name = [*file.keys()][0]
             build_html(file, f'{pathn}{dir_name}/', dir_name, params, parent = True)
-            html += f'<a href="{dir_name}/index.html">{str(dir_name)[:params["limit"]]}</b><br/>\n'
+            html += f'<a href="{dir_name}/index.html">{str(dir_name)[:params["limit"]]}/</b><br/>\n'
         elif file == 'index.html':
             pass
         else:
-            html += f'<a href="{file}">{str(file)[:25]}</b><br/>\n'
+            html += f'<a href="{file}">{str(file)[:params["limit"]]}</b><br/>\n'
 
     with open(f'{pathn}/index.html', 'w') as file:
         file.write(html)
