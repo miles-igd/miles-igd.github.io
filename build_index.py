@@ -23,7 +23,7 @@ def build_html(file_structure, pathn, dir_parent, params, parent = None):
     '''
     Builds an index.html for every directory in the filesystem in dir_parent
     '''
-    html = f'<h1>Index: {dir_parent}</h1>\n'
+    html = f'<h1>Index of ./{dir_parent}</h1>\n'
     if parent:
         html += f'<a href="../index.html">..</a><br/>\n'
 
@@ -43,6 +43,6 @@ def build_html(file_structure, pathn, dir_parent, params, parent = None):
 if __name__ == "__main__":
     with open('parameters.json', 'r') as file:
         params = load(file)
-        
+
     files = build_file_structure('./', '')
     build_html(files, './', '', params)
