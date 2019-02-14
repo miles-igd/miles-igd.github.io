@@ -37,12 +37,18 @@ def build_html(file_structure, pathn, dir_parent, params, parent = None):
         else:
             html += f'<a href="{file}">{str(file)[:params["limit"]]}</b><br/>\n'
 
-    with open(f'{pathn}/index.html', 'w') as file:
+    index_path = f'{pathn}/index.html'
+    with open(index_path, 'w') as file:
         file.write(html)
+    print('INFO: built', index_path, 'successfully')
 
 if __name__ == "__main__":
-    with open('parameters.json', 'r') as file:
-        params = load(file)
+    try:
+        with open('parameters.json', 'r') as file:
+            params = load(file)
+    except FileNotFoundError as e:
+        print('WARNING:', e, '| using defaults')
+        params = {'limit': 100}
 
     files = build_file_structure('./', '')
     build_html(files, './', '', params)
