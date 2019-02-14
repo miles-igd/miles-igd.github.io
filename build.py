@@ -21,7 +21,7 @@ def build_file_structure(pathn, parent):
 
 def build_html(file_structure, pathn, dir_parent, params, parent = None):
     '''
-    Builds an index.html for every directory in the filesystem in dir_parent
+    Builds an index.html for every file in the filesystem in dir_parent
     '''
     html = f'<h1>Index of ./{dir_parent}</h1>\n'
     if parent:
