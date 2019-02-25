@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="./css/map.css">
+    <title>Map of Video Games</title>
+    <meta name="description" content="Map of Video Games - Explore an interactive map of video games to find games by genre, and find similar games!" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="chart" id="chartview">
+            <div class="loading">LOADING...</div>
+        </div>
+        <div class="sidebar">
+            <div class="inputbox"><input id="gameinput" type="text" name="games" placeholder="Search..."></div>
+            <div class="listing" id="listing">
+                <div class="listingTitle" id="listingTitle">Click on a game on the graph</div>
+                <div class="listingList" id="listingList"></div>
+            </div>
+            <div class="aboutlabel">INFOBOX</div>
+            <div class="infobox" id="infobox">
+                <div class="infobar" id="game">TITLE</div>
+                <div class="infotext" id="gametext">Click on a game on the graph</div>
+                <div class="infobar" id="steamtag">STEAMTAG - CLUSTERTAG</div>
+                <div class="infotext" id="steamtext">or search for a game</div>
+                <div class="infobar" id="postag">POSITION</div>
+                <div class="infotext" id="postext">and press Enter</div>
+                <div class="infobar" id="hovertag">CLUSTER (hoverinfo)</div>
+                <div class="infotext" id="hovertext">Click on a game on the graph</div>
+            </div>
+            <div class="about"><a href="./Exploring the Doc2Vec and Creating a Map of Video Games.html#results" target="_blank">ABOUT</a></div>
+        </div>
+    </div>
+    <script src="./js/map_data/NAME.js"></script>
+    <script src="./js/map_data/X.js"></script>
+    <script src="./js/map_data/Y.js"></script>
+    <script src="./js/map_data/CLUSTER.js"></script>
+    <script src="./js/map_data/CLUSTERTAG.js"></script>
+    <script src="./js/map_data/STEAMTAG.js"></script>
+
+    <script src="./js/map_data/FULL.js"></script>
+    <script src="./js/map_data/TOP50.js"></script>
+    <script src="./js/map_data/APPIDS.js"></script>
+
+    <script src="./js/trie.js"></script>
+    <script src="./js/autocomplete.js"></script>
+    <script src="./js/map.js"></script>
+</body>
+</html>
