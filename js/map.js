@@ -65,6 +65,36 @@ Plotly.plot(chartDiv, [trace], layout, {scrollZoom: true, displayModeBar: false}
 var gameinput = document.getElementById("gameinput")
 autocomplete(gameinput, trie);
 
+function update_listing(arr) {
+    listingTitle.innerHTML = "<strong>TOP 50 MOST SIMILAR</strong>"
+    listingStr = "<ol>";
+    for (var i=0; i<arr.length; i++) {
+        if (typeof APPIDS[FULL[arr[i]]] !== 'undefined') {
+        listingStr += "<li><a href='https://store.steampowered.com/app/"+APPIDS[FULL[arr[i]]]+"' target='_blank'>"+FULL[arr[i]]+"</a></li>"
+        } else {
+        listingStr += "<li>"+FULL[arr[i]]+"</li>"
+        }
+    }
+    listingStr += "</ol>"
+    listingBox.innerHTML = listingStr
+}
+
+function get_json(fp) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', fp, true);
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {
+            if(xmlhttp.status == 200) {
+                let json = JSON.parse(xmlhttp.responseText);
+                update_listing(json);
+            } else {
+                listingBox.innerHTML = 'Error: '+xmlhttp.status
+            }
+        }
+    };
+    xmlhttp.send(null);
+}
+
 function update_arrow(div, id, noclear=true) {
     if (noclear) {
         Plotly.relayout(div, {annotations: [{
@@ -112,33 +142,8 @@ function update_list(input) {
         update_arrow(chartDiv, 0, noclear=false);
     }
 
-    listingTitle.innerHTML = "<strong>TOP 50 MOST SIMILAR</strong>"
-    listingStr = "<ol>";
-    for (var i=0; i<TOP50[input.value].length; i++) {
-        if (typeof APPIDS[FULL[TOP50[input.value][i]]] !== 'undefined') {
-        listingStr += "<li><a href='https://store.steampowered.com/app/"+APPIDS[FULL[TOP50[input.value][i]]]+"' target='_blank'>"+FULL[TOP50[input.value][i]]+"</a></li>"
-        } else {
-        listingStr += "<li>"+FULL[TOP50[input.value][i]]+"</li>"
-        }
-    }
-    listingStr += "</ol>"
-    listingBox.innerHTML = listingStr
-}
-
-function get_json(fp) {
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', fp, true);
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4) {
-            if(xmlhttp.status == 200) {
-                let re = JSON.parse(xmlhttp.responseText);
-            } else {
-                let re = null;
-            }
-        }
-    };
-    xmlhttp.send(null);
-    return re;
+    fp = "./js/top/"+sha1(input.value)+".json"
+    get_json(fp);
 }
 
 gameinput.addEventListener("keyup", function(e) {
@@ -168,22 +173,9 @@ chartDiv.on('plotly_click', function(data){
     posText.innerHTML = "<strong>X: "+x+" Y: "+y+"</strong>";
     update_arrow(chartDiv, id);
 
-    listingTitle.innerHTML = "<strong>TOP 50 MOST SIMILAR</strong>"
-    listingStr = "<ol>";
-
     fp = "./js/top/"+sha1(text)+".json"
-    items = get_json(fp);
-    console.log(items)
-    for (var i=0; i<TOP50[text].length; i++) {
-        if (typeof APPIDS[FULL[TOP50[text][i]]] !== 'undefined') {
-            listingStr += "<li><a href='https://store.steampowered.com/app/"+APPIDS[FULL[TOP50[text][i]]]+"' target='_blank'>"+FULL[TOP50[text][i]]+"</a></li>"
-        } else {
-            listingStr += "<li>"+FULL[TOP50[text][i]]+"</li>"
-        }
-    }
-    listingStr += "</ol>"
-    listingBox.innerHTML = listingStr
-
+    get_json(fp);
+    
     gameinput.value = '';
 });
 
