@@ -125,6 +125,22 @@ function update_list(input) {
     listingBox.innerHTML = listingStr
 }
 
+function get_json(fp) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', fp, true);
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4) {
+            if(xmlhttp.status == 200) {
+                let re = JSON.parse(xmlhttp.responseText);
+            } else {
+                let re = null;
+            }
+        }
+    };
+    xmlhttp.send(null);
+    return re;
+}
+
 gameinput.addEventListener("keyup", function(e) {
     if (e.keyCode == 13 && FULL.includes(this.value)) {
         update_list(this)
@@ -154,6 +170,10 @@ chartDiv.on('plotly_click', function(data){
 
     listingTitle.innerHTML = "<strong>TOP 50 MOST SIMILAR</strong>"
     listingStr = "<ol>";
+
+    fp = "./js/top/"+sha1(text)+".json"
+    items = get_json(fp);
+    console.log(items)
     for (var i=0; i<TOP50[text].length; i++) {
         if (typeof APPIDS[FULL[TOP50[text][i]]] !== 'undefined') {
             listingStr += "<li><a href='https://store.steampowered.com/app/"+APPIDS[FULL[TOP50[text][i]]]+"' target='_blank'>"+FULL[TOP50[text][i]]+"</a></li>"
