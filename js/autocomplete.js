@@ -21,7 +21,7 @@ function autocomplete(inp, trie) {
             b = document.createElement("DIV");
             b.innerHTML = "<strong>" + matches[i].substr(0, val.length) + "</strong>";
             b.innerHTML += matches[i].substr(val.length);
-            b.innerHTML += "<input type='hidden' value='" + matches[i] + "'>";
+            b.innerHTML += "<input type='hidden' value='" + matches[i].replace("'", "&#39;").replace('"', "&quot;") + "'>";
 
             b.addEventListener("click", function(e) {
                 inp.value = this.getElementsByTagName("input")[0].value;
