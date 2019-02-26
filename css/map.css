@@ -45,6 +45,7 @@ html, body {
     background: crimson;
     overflow: hidden;
     text-align: right;
+    white-space: nowrap;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     scroll-behavior: auto;
 }
