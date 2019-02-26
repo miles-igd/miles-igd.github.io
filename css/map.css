@@ -126,6 +126,7 @@ a:visited {
 
 .listing .listingTitle {
     display: block;
+    padding-top: .3em;
     position: fixed;
     background: white;
     width: 15%;
