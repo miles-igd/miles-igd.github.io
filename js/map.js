@@ -95,29 +95,33 @@ function get_json(fp) {
     xmlhttp.send(null);
 }
 
-function update_arrow(div, id, noclear=true) {
+function update_graph(div, x, y, text) {
+    Plotly.relayout(div, {annotations: [{
+        x: x,
+        y: y,
+        text: text,
+        ax: 0,
+        ay: -30,
+        showarrow: true,
+        arrowhead: 2,
+        arrowsize: 2,
+        arrowwidth: 2,
+        arrowcolor: 'black',
+        font: {
+            family: 'Consolas, monospace',
+            size: 16,
+            color: 'white'
+        },
+        bgcolor: 'black',
+        opacity: 0.9
+    }]})
+}
+
+function update_arrow(div, id, noclear=true, notongraph=null) {
     if (noclear) {
-        Plotly.relayout(div, {annotations: [{
-            x: X[id],
-            y: Y[id],
-            text: NAME[id],
-            ax: 0,
-            ay: -30,
-            showarrow: true,
-            arrowhead: 2,
-            arrowsize: 2,
-            arrowwidth: 2,
-            arrowcolor: 'black',
-            font: {
-                family: 'Consolas, monospace',
-                size: 16,
-                color: 'white'
-            },
-            bgcolor: 'black',
-            opacity: 0.9
-        }]})
+        update_graph(div, X[id], Y[id], NAME[id])
     } else {
-        Plotly.relayout(div, {annotations: []})
+        update_graph(div, notongraph['x'], notongraph['y'], notongraph['name'])
     }
 }
 
@@ -130,16 +134,20 @@ function update_list(input) {
 
     if (NAME.includes(input.value)) {
         let indexThis = NAME.indexOf(input.value)
-        infoTag.innerHTML = "<strong>"+STEAMTAG[indexThis]+" - "+CLUSTERTAG[indexThis]+"</strong>";
+        infoTag.innerHTML = "<strong>"+IDTOTAG[TAG[indexThis]]+" - "+IDTOCLUSTER[CLUSTER[indexThis]]+"</strong>";
 
         let x = X[indexThis].toPrecision(3);
         let y = Y[indexThis].toPrecision(3);
         posText.innerHTML = "<strong>X: "+x+" Y: "+y+"</strong>";
         update_arrow(chartDiv, indexThis);
     } else {
-        infoTag.innerHTML = "<strong>Unknown - Unknown</strong>";
-        posText.innerHTML = "<strong>Not on graph</strong>";
-        update_arrow(chartDiv, 0, noclear=false);
+        let indexThis = MISSING.indexOf(input.value)
+        infoTag.innerHTML = "<strong>"+IDTOTAG[MISSINGTAG[indexThis]]+" - Unknown</strong>";
+
+        let x = MISSINGX[indexThis].toPrecision(3);
+        let y = MISSINGY[indexThis].toPrecision(3);
+        posText.innerHTML = "<strong>X: "+x+" Y: "+y+"</strong>";
+        update_arrow(chartDiv, 0, noclear=false, notongraph={x: x, y: y, name: input.value});
     }
 
     fp = "./js/top/"+sha1(input.value)+".json"
@@ -166,7 +174,7 @@ chartDiv.on('plotly_click', function(data){
         infoGame.innerHTML = "<strong>"+NAME[id]+"</strong>";
     }
 
-    infoTag.innerHTML = "<strong>"+STEAMTAG[id]+" - "+CLUSTERTAG[id]+"</strong>";
+    infoTag.innerHTML = "<strong>"+IDTOTAG[TAG[id]]+" - "+IDTOCLUSTER[CLUSTER[id]]+"</strong>";
 
     let x = X[id].toPrecision(5);
     let y = Y[id].toPrecision(5);
@@ -181,7 +189,7 @@ chartDiv.on('plotly_click', function(data){
 
 chartDiv.on('plotly_hover', function(data){
     id = data.points[0].pointIndex;
-    hoverTag.innerHTML = "<strong>"+CLUSTERTAG[id]+"</strong>";
+    hoverTag.innerHTML = "<strong>"+IDTOCLUSTER[CLUSTER[id]]+"</strong>";
 });
 
 
