@@ -193,3 +193,10 @@ a:visited {
 ::-webkit-scrollbar-thumb:hover {
     background: blueviolet; 
 }
+
+.js-plotly-plot .plotly .cursor-move {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}

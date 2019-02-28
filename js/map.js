@@ -192,6 +192,4 @@ chartDiv.on('plotly_hover', function(data){
     hoverTag.innerHTML = "<strong>"+IDTOCLUSTER[CLUSTER[id]]+"</strong>";
 });
 
-
-
 window.addEventListener("resize", function(){Plotly.Plots.resize(document.getElementById("chartview"));});
