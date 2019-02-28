@@ -1,3 +1,4 @@
+var FULL = NAME.concat(MISSING)
 var trie = new Trie();
 for (var i=0; i<FULL.length; i++) {
     trie.insert(FULL[i])
